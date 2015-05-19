@@ -1,0 +1,4 @@
+name: BungeeBridge
+main: net.zyuiop.bungeebridge.BungeeBridge
+author: zyuiop
+version: 0.1
