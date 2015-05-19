@@ -1,4 +1,4 @@
-Documentation des protocoles PUBSUB SamaGames
+Documentation des protocoles PUBSUB BungeeBridge
 =============================================
 
 1. Avant toute chose
@@ -6,8 +6,8 @@ Documentation des protocoles PUBSUB SamaGames
 
 ### A. APIs PubSub
 
-La SamaGamesAPI inclus un gestionnaire de publishing/subscribing. Il dispose d'une queue de messages qu'il envoie l'un après l'autre.
-Pour l'utiliser : `SamaGamesAPI.get().getPubSub().send(PendingMessage message)`
+Le BukkitBridge inclus un gestionnaire de publishing/subscribing. Il dispose d'une queue de messages qu'il envoie l'un après l'autre.
+Pour l'utiliser : `BukkitBridge.get().getPubSub().send(PendingMessage message)`
 
 ### B. A propos de cette documentation 
 
@@ -18,7 +18,7 @@ La documentation sera formattée comme suit :
 ## 2. Commandes APIExec
 
 Les commandes APIExec ont pour but de permettre l'exécution de méthodes BungeeCord relatives aux joueurs depuis un environnement spigot.
-La classe `ProxiedPlayer` de la SamaGamesAPI est une implémentation de cette API.
+La classe `ProxiedPlayer` du BukkitBridge est une implémentation de cette API.
 
 *Appel :* n'importe quelle source
 *Exécution :* proxy du joueur

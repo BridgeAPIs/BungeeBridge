@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.samagames</groupId>
+    <groupId>net.zyuiop</groupId>
     <artifactId>bungeebridge</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -43,10 +43,6 @@
             <id>sonatyperepo_</id>
             <url>http://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
-        <repository>
-            <id>zyuiop-repo</id>
-            <url>http://maven.samagames.net/public/</url>
-        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -69,8 +65,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.samagames</groupId>
-            <artifactId>PermissionsAPI</artifactId>
+            <groupId>net.zyuiop</groupId>
+            <artifactId>CrossPermissionsAPI</artifactId>
             <scope>compile</scope>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
