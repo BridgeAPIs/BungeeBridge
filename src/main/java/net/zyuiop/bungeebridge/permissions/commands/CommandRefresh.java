@@ -4,8 +4,8 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-import net.samagames.permissionsapi.PermissionsAPI;
-import net.samagames.permissionsapi.permissions.PermissionUser;
+import net.zyuiop.crosspermissions.api.PermissionsAPI;
+import net.zyuiop.crosspermissions.api.permissions.PermissionUser;
 
 public class CommandRefresh extends Command {
 

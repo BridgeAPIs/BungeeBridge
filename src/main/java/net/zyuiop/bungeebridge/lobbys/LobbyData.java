@@ -3,7 +3,6 @@ package net.zyuiop.bungeebridge.lobbys;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.zyuiop.bungeebridge.BungeeBridge;
-import redis.clients.jedis.Jedis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
+// TODO : Rewrite this file as we don't own it
 
 public class LobbyData {
 

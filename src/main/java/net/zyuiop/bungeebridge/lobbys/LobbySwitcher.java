@@ -8,8 +8,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.zyuiop.bungeebridge.BungeeBridge;
-import net.samagames.permissionsapi.PermissionsAPI;
-import net.samagames.permissionsapi.permissions.PermissionUser;
+import net.zyuiop.crosspermissions.api.PermissionsAPI;
+import net.zyuiop.crosspermissions.api.permissions.PermissionUser;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 /**
  * Created by Geekpower14 on 21/12/2014.
  */
+
+// TODO : Rewrite this file as we don't own it
 public class LobbySwitcher {
 
     public BungeeBridge plugin;

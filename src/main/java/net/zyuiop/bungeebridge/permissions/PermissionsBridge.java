@@ -5,9 +5,10 @@ import net.zyuiop.bungeebridge.BungeeBridge;
 import net.zyuiop.bungeebridge.permissions.commands.CommandGroups;
 import net.zyuiop.bungeebridge.permissions.commands.CommandRefresh;
 import net.zyuiop.bungeebridge.permissions.commands.CommandUsers;
-import net.samagames.permissionsapi.PermissionsAPI;
-import net.samagames.permissionsapi.rawtypes.RawPlayer;
-import net.samagames.permissionsapi.rawtypes.RawPlugin;
+import net.zyuiop.crosspermissions.api.PermissionsAPI;
+import net.zyuiop.crosspermissions.api.database.Database;
+import net.zyuiop.crosspermissions.api.rawtypes.RawPlayer;
+import net.zyuiop.crosspermissions.api.rawtypes.RawPlugin;
 import redis.clients.jedis.Jedis;
 
 import java.util.UUID;
@@ -21,7 +22,13 @@ public class PermissionsBridge implements RawPlugin {
 	public PermissionsBridge(BungeeBridge plugin) {
 		this.plugin = plugin;
 
-		this.api = new PermissionsAPI(this, "Joueur");
+
+		this.api = new PermissionsAPI(this, "Joueur", new Database() {
+			@Override
+			public Jedis getJedis() {
+				return PermissionsBridge.this.plugin.getConnector().getResource();
+			}
+		});
 
 
 		ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new CommandGroups(api));
@@ -72,8 +79,13 @@ public class PermissionsBridge implements RawPlugin {
 	}
 
 	@Override
-	public Jedis getJedis() {
-		return plugin.getConnector().getResource();
+	public UUID getPlayerId(String name) {
+		return BungeeBridge.getInstance().getUuidTranslator().getUUID(name, false);
+	}
+
+	@Override
+	public String getPlayerName(UUID id) {
+		return null;
 	}
 
 	public UUID getPrimary() {

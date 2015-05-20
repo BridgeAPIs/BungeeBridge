@@ -6,9 +6,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.zyuiop.bungeebridge.BungeeBridge;
-import net.samagames.permissionsapi.PermissionsAPI;
-import net.samagames.permissionsapi.permissions.PermissionGroup;
-import net.samagames.permissionsapi.permissions.PermissionUser;
+import net.zyuiop.crosspermissions.api.PermissionsAPI;
+import net.zyuiop.crosspermissions.api.permissions.PermissionGroup;
+import net.zyuiop.crosspermissions.api.permissions.PermissionUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,9 +26,6 @@ public class CommandUsers extends Command {
 
     protected boolean canDo(CommandSender sender, String command, String[] args) {
         if (sender instanceof ProxiedPlayer) {
-            if (((ProxiedPlayer) sender).getUniqueId().equals(BungeeBridge.getInstance().getPermissionsBridge().getPrimary()))
-                return true;
-
             String basePerm = "permissions.bungee.users";
             PermissionUser u = api.getUser(((ProxiedPlayer) sender).getUniqueId());
             if (u.hasPermission("permissions.bungee.*") || u.hasPermission("permissions.*")) return true;

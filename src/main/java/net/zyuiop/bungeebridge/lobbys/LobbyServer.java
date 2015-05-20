@@ -2,6 +2,7 @@ package net.zyuiop.bungeebridge.lobbys;
 
 import java.util.List;
 import java.util.UUID;
+// TODO : Rewrite this file as we don't own it
 
 public class LobbyServer implements Comparable{
 

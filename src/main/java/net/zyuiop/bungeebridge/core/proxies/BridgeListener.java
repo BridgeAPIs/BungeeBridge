@@ -9,12 +9,12 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.protocol.ProtocolConstants;
 import net.zyuiop.bungeebridge.BungeeBridge;
-import net.zyuiop.bungeebridge.core.players.PlayerData;
 import net.zyuiop.bungeebridge.core.database.Publisher;
 import net.zyuiop.bungeebridge.core.database.ServerSettings;
+import net.zyuiop.bungeebridge.core.players.PlayerData;
 import net.zyuiop.bungeebridge.utils.Misc;
-import net.samagames.permissionsapi.PermissionsAPI;
-import net.samagames.permissionsapi.permissions.PermissionUser;
+import net.zyuiop.crosspermissions.api.PermissionsAPI;
+import net.zyuiop.crosspermissions.api.permissions.PermissionUser;
 import redis.clients.jedis.Jedis;
 
 import java.util.Date;
@@ -165,7 +165,7 @@ public class BridgeListener implements Listener {
 
 			Jedis jedis = plugin.getConnector().getResource();
 			String ban = jedis.get("banlist:reason:" + id); //Requète tout le temps
-			if (ban != null && !id.equals(plugin.getPermissionsBridge().getPrimary())) {
+			if (ban != null) {
 
 				long ttl = jedis.ttl("banlist:reason:" + id); // Requête tout le temps
 				String duration = "définitivement";

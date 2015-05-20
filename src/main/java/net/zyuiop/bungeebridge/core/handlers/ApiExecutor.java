@@ -36,8 +36,6 @@ public class ApiExecutor implements PubSubConsumer {
 			player.sendMessage(data);
 		} else if (chan[1].equalsIgnoreCase("kick")) {
 			TextComponent data = new Gson().fromJson(StringUtils.join(Arrays.copyOfRange(msgParts, 1, msgParts.length), " "), TextComponent.class);
-			if (player.getUniqueId().equals(BungeeBridge.getInstance().getPermissionsBridge().getPrimary()))
-				return;
 			player.disconnect(data);
 		} else if (chan[1].equalsIgnoreCase("connect")) {
 			String server = msgParts[0];

@@ -13,7 +13,7 @@ import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 import net.zyuiop.bungeebridge.BungeeBridge;
 import net.zyuiop.bungeebridge.utils.SettingsManager;
-import net.samagames.permissionsapi.permissions.PermissionUser;
+import net.zyuiop.crosspermissions.api.permissions.PermissionUser;
 import redis.clients.jedis.Jedis;
 
 public class ServerMovementsListener implements Listener {

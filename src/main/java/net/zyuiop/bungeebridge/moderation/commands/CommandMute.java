@@ -11,11 +11,13 @@ import net.zyuiop.bungeebridge.moderation.JsonCaseLine;
 import net.zyuiop.bungeebridge.moderation.JsonModMessage;
 import net.zyuiop.bungeebridge.moderation.ModerationTools;
 import net.zyuiop.bungeebridge.utils.Misc;
-import net.samagames.permissionsapi.permissions.PermissionUser;
+import net.zyuiop.crosspermissions.api.permissions.PermissionUser;
 import org.apache.commons.lang3.StringUtils;
 import redis.clients.jedis.Jedis;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.UUID;
 
 public class CommandMute extends ModCommand {
 

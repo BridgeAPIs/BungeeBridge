@@ -2,7 +2,7 @@ package net.zyuiop.bungeebridge.permissions;
 
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.samagames.permissionsapi.rawtypes.RawPlayer;
+import net.zyuiop.crosspermissions.api.rawtypes.RawPlayer;
 
 import java.util.ArrayList;
 import java.util.UUID;

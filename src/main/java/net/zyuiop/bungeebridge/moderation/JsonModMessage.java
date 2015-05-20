@@ -6,7 +6,7 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.zyuiop.bungeebridge.BungeeBridge;
 import net.zyuiop.bungeebridge.core.database.Publisher;
-import net.samagames.permissionsapi.permissions.PermissionUser;
+import net.zyuiop.crosspermissions.api.permissions.PermissionUser;
 
 public class JsonModMessage {
 
