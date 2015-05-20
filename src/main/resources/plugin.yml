@@ -1,4 +1,4 @@
 name: BungeeBridge
-main: net.zyuiop.bungeebridge.BungeeBridge
+main: net.bridgesapis.bungeebridge.BungeeBridge
 author: zyuiop
 version: 0.1

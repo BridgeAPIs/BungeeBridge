@@ -1,2 +1,20 @@
 proxy:
   name: Proxy1
+
+database:
+  sentinels: [] # Sentinels IP:PORT
+  auth: "" # Authentification
+  mastername: ""
+  cachemastername: ""
+
+modules:
+  lobbies:
+    # Beware : when lobbies are enabled, you have to set your fallback server to a ghost server named 'main'
+    enabled: true
+    lobbyprefix: Lobby_
+  privatemessages:
+    enabled: true
+  friends:
+    enabled: true
+  parties:
+    enabled: false # Module doesn't work without spigotside api // feature still in dev, use with caution
