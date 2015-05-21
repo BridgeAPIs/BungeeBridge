@@ -1,12 +1,14 @@
 package net.bridgesapis.bungeebridge.i18n;
 
-import com.google.common.io.ByteStreams;
 import net.bridgesapis.bungeebridge.BungeeBridge;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 
 public class I18n {
 
@@ -15,15 +17,17 @@ public class I18n {
     public static void load(String lang, BungeeBridge plugin) throws IOException {
         File file = new File(plugin.getDataFolder().getPath() + "/i18n/" + lang + ".lang");
         if (!file.exists()) {
-            file = new File(plugin.getDataFolder().getPath() + "/i18n/default.lang");
-            if (!file.exists()) {
-                new File(plugin.getDataFolder().getPath() + "/i18n/").mkdir();
-                file.createNewFile();
-                try (InputStream is = plugin.getResourceAsStream("default.lang");
-                     OutputStream os = new FileOutputStream(file)) {
-                     ByteStreams.copy(is, os);
-                }
+            InputStream stream = plugin.getResourceAsStream(lang + ".lang");
+            if (stream == null) {
+                stream = plugin.getResourceAsStream("default.lang");
+                lang = "default";
             }
+
+            file = new File(plugin.getDataFolder().getPath() + "/i18n/" + lang + ".lang");
+            if (!new File(plugin.getDataFolder().getPath() + "/i18n/").exists())
+                new File(plugin.getDataFolder().getPath() + "/i18n/").mkdir();
+
+            Files.copy(stream, file.toPath());
         }
 
         I18n.lang = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);

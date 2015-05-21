@@ -1,5 +1,6 @@
 package net.bridgesapis.bungeebridge.commands;
 
+import net.bridgesapis.bungeebridge.i18n.I18n;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -25,7 +26,7 @@ public class CommandGlobal extends Command {
 		
 		ProxiedPlayer p = (ProxiedPlayer) arg0;
 		if (!p.hasPermission("modo.globalcomand")) {
-			TextComponent c = new TextComponent("Vous n'avez pas la permission.");
+			TextComponent c = new TextComponent(I18n.getTranslation("permission_denied"));
 			c.setColor(ChatColor.RED);
 			p.sendMessage(c);
 		} else if (arg1.length < 1) {

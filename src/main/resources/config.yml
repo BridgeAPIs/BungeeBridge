@@ -1,6 +1,9 @@
 proxy:
   name: Proxy1
 
+# Default lang is french
+lang: default
+
 database:
   sentinels: [] # Sentinels IP:PORT
   auth: "" # Authentification

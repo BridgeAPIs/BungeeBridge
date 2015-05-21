@@ -6,6 +6,7 @@ import net.bridgesapis.bungeebridge.core.handlers.ApiExecutor;
 import net.bridgesapis.bungeebridge.core.players.PlayerDataManager;
 import net.bridgesapis.bungeebridge.core.proxies.NetworkBridge;
 import net.bridgesapis.bungeebridge.core.servers.ServersManager;
+import net.bridgesapis.bungeebridge.i18n.I18n;
 import net.bridgesapis.bungeebridge.interactions.privatemessages.CommandMsg;
 import net.bridgesapis.bungeebridge.interactions.privatemessages.PrivateMessagesHandler;
 import net.bridgesapis.bungeebridge.listeners.ChatListener;
@@ -77,6 +78,8 @@ public class BungeeBridge extends Plugin {
 
 			configuration = loadConfiguration();
 			proxyName = configuration.getString("proxyname");
+
+			I18n.load(configuration.getString("lang", "default"), this);
 
 			loadDatabase(configuration);
 

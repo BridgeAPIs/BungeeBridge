@@ -1,0 +1,5 @@
+# Default lang is FRENCH
+# An english translation file might be provided in the future
+
+permission_denied: "Vous n'avez pas la permission"
+already_connected: "Vous êtes déjà connecté depuis un autre proxy."

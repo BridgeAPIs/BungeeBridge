@@ -4,6 +4,7 @@ import net.bridgesapis.bungeebridge.BungeeBridge;
 import net.bridgesapis.bungeebridge.core.database.Publisher;
 import net.bridgesapis.bungeebridge.core.database.ServerSettings;
 import net.bridgesapis.bungeebridge.core.players.PlayerData;
+import net.bridgesapis.bungeebridge.i18n.I18n;
 import net.bridgesapis.bungeebridge.utils.Misc;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ServerPing;
@@ -37,7 +38,7 @@ public class BridgeListener implements Listener {
 				isOnline = true;
 
 		if (isOnline) {
-			event.getPlayer().disconnect(new ComponentBuilder("Vous êtes déjà connecté depuis un autre proxy.").color(ChatColor.RED).create());
+			event.getPlayer().disconnect(new ComponentBuilder(I18n.getTranslation("already_connected")).color(ChatColor.RED).create());
 			return;
 		}
 		jedis.close();
@@ -249,7 +250,7 @@ public class BridgeListener implements Listener {
 		} catch (Exception e) {
 			ServerPing ping = event.getResponse();
 			ping.setPlayers(new ServerPing.Players(0, 0, new ServerPing.PlayerInfo[]{}));
-			ping.setDescription(ChatColor.RED + "[X] SamaGames | Maintenance [X] \n > Le serveur revient prochainement !");
+			ping.setDescription(ChatColor.RED + "[X] Network Difficulties [X] \n > The server is currently down.");
 			event.setResponse(ping);
 		}
 	}
