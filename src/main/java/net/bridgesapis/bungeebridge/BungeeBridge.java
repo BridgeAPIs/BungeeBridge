@@ -2,7 +2,7 @@ package net.bridgesapis.bungeebridge;
 
 import net.bridgesapis.bungeebridge.commands.*;
 import net.bridgesapis.bungeebridge.core.TasksExecutor;
-import net.bridgesapis.bungeebridge.core.database.SentinelDatabaseConnector;
+import net.bridgesapis.bungeebridge.core.database.*;
 import net.bridgesapis.bungeebridge.core.handlers.ApiExecutor;
 import net.bridgesapis.bungeebridge.core.players.PlayerDataManager;
 import net.bridgesapis.bungeebridge.core.proxies.NetworkBridge;
@@ -25,9 +25,6 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import net.bridgesapis.bungeebridge.core.handlers.PubSubConsumer;
-import net.bridgesapis.bungeebridge.core.database.DatabaseConnector;
-import net.bridgesapis.bungeebridge.core.database.Publisher;
-import net.bridgesapis.bungeebridge.core.database.ServerSettings;
 import net.bridgesapis.bungeebridge.interactions.friends.FriendsManagement;
 import net.bridgesapis.bungeebridge.interactions.parties.PartiesCommand;
 import net.bridgesapis.bungeebridge.interactions.parties.PartiesManager;
@@ -289,6 +286,17 @@ public class BungeeBridge extends Plugin {
 	}
 
 	public void loadDatabase(Configuration configuration) {
+		if (configuration.get("singleredis.masterhost") != null) {
+			getLogger().info("Using single redis instance. Comment 'singleredis.masterhost' node to disable and switch to sentinel network");
+			getLogger().warning("This feature is still in test, it may encounter problems !");
+			String master = configuration.getString("singleredis.masterhost");
+			String cache = configuration.getString("singleredis.cachehost");
+			String auth = configuration.getString("singleredis.auth");
+			connector = new SingleDatabaseConnector(this, master, cache, auth);
+			return;
+		}
+
+		getLogger().info("Using a sentinel based database.");
 		List<String> ips = configuration.getStringList("database.sentinels");
 		HashSet<String> ipsSet = new HashSet<>();
 		ipsSet.addAll(ips);

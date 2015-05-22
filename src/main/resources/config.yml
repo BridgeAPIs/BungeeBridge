@@ -10,6 +10,13 @@ database:
   mastername: ""
   cachemastername: ""
 
+# If you prefear to use a classic Redis network, uncomment the following lines.
+
+#singleredis:
+#  auth: "" #Authentication
+#  masterhost: "" # IP:PORT of the master
+#  cachehost: "" # IP:PORT of the cache db
+
 modules:
   lobbies:
     # Beware : when lobbies are enabled, you have to set your fallback server to a ghost server named 'main'
