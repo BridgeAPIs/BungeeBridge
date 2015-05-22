@@ -2,6 +2,7 @@ package net.bridgesapis.bungeebridge;
 
 import net.bridgesapis.bungeebridge.commands.*;
 import net.bridgesapis.bungeebridge.core.TasksExecutor;
+import net.bridgesapis.bungeebridge.core.database.SentinelDatabaseConnector;
 import net.bridgesapis.bungeebridge.core.handlers.ApiExecutor;
 import net.bridgesapis.bungeebridge.core.players.PlayerDataManager;
 import net.bridgesapis.bungeebridge.core.proxies.NetworkBridge;
@@ -288,13 +289,13 @@ public class BungeeBridge extends Plugin {
 	}
 
 	public void loadDatabase(Configuration configuration) {
-		List<String> ips = configuration.getStringList("sentinels");
+		List<String> ips = configuration.getStringList("database.sentinels");
 		HashSet<String> ipsSet = new HashSet<>();
 		ipsSet.addAll(ips);
-		String password = configuration.getString("auth");
-		String master = configuration.getString("mastername");
-		String cacheMaster = configuration.getString("cachemastername");
-		connector = new DatabaseConnector(this, ipsSet, master, cacheMaster, password);
+		String password = configuration.getString("database.auth");
+		String master = configuration.getString("database.mastername");
+		String cacheMaster = configuration.getString("database.cachemastername");
+		connector = new SentinelDatabaseConnector(this, ipsSet, master, cacheMaster, password);
 	}
 
 	public Configuration loadConfiguration() throws IOException {
