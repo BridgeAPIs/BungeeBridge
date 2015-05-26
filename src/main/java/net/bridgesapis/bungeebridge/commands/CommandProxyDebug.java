@@ -25,7 +25,7 @@ public class CommandProxyDebug extends DefaultExecutor {
 	@Override
 	public void execute(CommandSender commandSender, String[] strings) {
 		plugin.getConnector().getCommandsSubscriber().toggle(commandSender);
-		commandSender.sendMessage(new ComponentBuilder("Debug modifié.").color(ChatColor.GREEN).create());
+		commandSender.sendMessage(new ComponentBuilder("Debug updated.").color(ChatColor.GREEN).create());
 	}
 
 

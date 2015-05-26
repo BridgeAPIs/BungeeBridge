@@ -1,6 +1,8 @@
 package net.bridgesapis.bungeebridge.commands;
 
 import net.bridgesapis.bungeebridge.BungeeBridge;
+import net.bridgesapis.bungeebridge.i18n.I18n;
+import net.bridgesapis.bungeebridge.i18n.TranslatorComponent;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -37,9 +39,9 @@ public class CommandGlist extends Command {
 				serversSlots.put(server, value);
 		}
 
-		TextComponent ctotal = new TextComponent("Nombre de joueurs total : ");
+		TextComponent ctotal = new TextComponent(I18n.getTranslation("commands.glist.total_players"));
 		ctotal.setColor(ChatColor.YELLOW);
-		TextComponent totalPlayers = new TextComponent(total + " joueurs");
+		TextComponent totalPlayers = new TextComponent(total + " " + I18n.getTranslation("words.player") + "s");
 		totalPlayers.setColor(ChatColor.GREEN);
 		ctotal.addExtra(" ");
 		ctotal.addExtra(totalPlayers);
@@ -47,15 +49,15 @@ public class CommandGlist extends Command {
 		commandSender.sendMessage(ctotal);
 
 		// Par proxy
-		commandSender.sendMessage(new ComponentBuilder("Joueurs par proxy : ").color(ChatColor.YELLOW).create());
+		commandSender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.glist.players_per_proxy")).color(ChatColor.YELLOW).create());
 	    for (String name : proxiesSlots.keySet()) {
-			TextComponent line = new TextComponent(" - " + name + " : " + proxiesSlots.get(name) + " joueurs");
+			TextComponent line = new TextComponent(" - " + name + " : " + proxiesSlots.get(name) + " " + I18n.getTranslation("words.player") + "s");
 			line.setColor(ChatColor.GREEN);
 			commandSender.sendMessage(line);
 		}
 
 		// Par serveur
-		TextComponent byServ = new TextComponent("Joueurs par serveur : ");
+		TextComponent byServ = new TranslatorComponent("commands.glist.players_per_server");
 		byServ.setColor(ChatColor.YELLOW);
 		for (String name : serversSlots.keySet()) {
 			TextComponent line = new TextComponent("[" + name + " : ");

@@ -3,3 +3,50 @@
 
 permission_denied: "Vous n'avez pas la permission"
 already_connected: "Vous êtes déjà connecté depuis un autre proxy."
+automessage_removed: "Message automatique supprimé."
+automessage_defined: "Message automatique définit."
+command_sent: "La commande a été émise."
+global_prefix: "§4[§c§lAnnonce§4] §c§l %NAME% : §6 %MESSAGE%"
+
+plugin_tag: "BungeeBridge" # Used as a ''network name''. If your network is called SuperMC, for example, you should change this value to SuperMC
+
+words:
+  player: "joueur"
+  help: "aide"
+  unknown: "inconnu"
+
+help:
+  msg:
+    usage: "/msg <joueur> <message>"
+    help: "Permet d'envoyer un message privé à un joueur"
+  lobby:
+    usage: "/lobby [numéro de lobby]"
+    help: "Vous téléporte au lobby"
+  friends:
+    usage: "/friends help"
+    help: "Aide des commandes d'amis"
+
+commands:
+  dispatch:
+    invalid_selector: "Le selecteur donné n'est pas valable."
+  glist:
+    total_players: "Nombre de joueurs total : "
+    players_per_proxy: "Joueurs par proxy : "
+    players_per_server: "Joueurs par serveur : "
+  global:
+    not_sent: "Aucun message envoyé."
+  help:
+    available: "Voici les commandes disponibles sur le serveur :"
+  lobby:
+    offline: "Ce lobby est hors ligne."
+    full: "Ce lobby est plein."
+    invalid: "Numéro de lobby invalide."
+  locate:
+    invalid: "Ce pseudo est invalide."
+    offline: "Ce joueur n'est pas en ligne."
+    current_proxy: "Proxy actuel : "
+    current_server: "Serveur actuel : "
+    last_lifesign: "Dernier signe de vie : "
+  setoption:
+    unknown: "Option non reconnue."
+    defined: "Option définie."

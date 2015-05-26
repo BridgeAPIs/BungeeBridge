@@ -28,7 +28,7 @@ public class CommandDelAutoMessage extends Command {
 			jedis.del("automessage");
 			jedis.close();
 
-			TextComponent c = new TextComponent("Message automatique supprimé.");
+			TextComponent c = new TextComponent(I18n.getTranslation("automessage_removed"));
 			c.setColor(ChatColor.GREEN);
 			p.sendMessage(c);
 		}

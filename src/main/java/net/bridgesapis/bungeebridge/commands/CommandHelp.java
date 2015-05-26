@@ -1,34 +1,37 @@
 package net.bridgesapis.bungeebridge.commands;
 
 import net.bridgesapis.bungeebridge.BungeeBridge;
+import net.bridgesapis.bungeebridge.i18n.I18n;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class CommandHelp extends Command {
 
-    private HashMap<String, String> helps = new HashMap<>();
+    private HashSet<String> helps = new HashSet<>();
 
     public CommandHelp() {
         super("help");
 
         if (BungeeBridge.getInstance().getPrivateMessagesManager() != null)
-            helps.put("/msg <joueur> <message>", "Permet d'envoyer un message privé à un joueur");
+            helps.add("msg");
 
         if (BungeeBridge.getInstance().hasLobbySwitcher())
-            helps.put("/lobby [numéro lobby]", "Vous téléporte au lobby");
+            helps.add("lobby");
 
         if (BungeeBridge.getInstance().hasFriends())
-            helps.put("/friends help", "Aide des commandes d'amis");
+            helps.add("friends");
     }
 
     @Override
     public void execute(CommandSender cs, String[] strings) {
-        TextComponent help = new TextComponent("Aide BungeeBridge");
+        TextComponent help = new TextComponent(StringUtils.capitalize(I18n.getTranslation("words.help")) + " " + I18n.getTag());
         help.setBold(true);
         help.setColor(ChatColor.GOLD);
 
@@ -40,13 +43,13 @@ public class CommandHelp extends Command {
         head.addExtra(tiret);
 
         cs.sendMessage(head);
-        cs.sendMessage(new ComponentBuilder("Voici les commandes disponibles sur le serveur :").color(ChatColor.YELLOW).bold(true).create());
+        cs.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.help.available")).color(ChatColor.YELLOW).bold(true).create());
 
-        for (String com : helps.keySet()) {
-            TextComponent command = new TextComponent(com);
+        for (String com : helps) {
+            TextComponent command = new TextComponent(I18n.getTranslation("help." + com + ".usage"));
             command.setColor(ChatColor.GREEN);
 
-            TextComponent args = new TextComponent(" : "+helps.get(com));
+            TextComponent args = new TextComponent(" : "+I18n.getTranslation("help." + com + ".help"));
             args.setColor(ChatColor.GOLD);
 
             TextComponent toShow = new TextComponent("- ");

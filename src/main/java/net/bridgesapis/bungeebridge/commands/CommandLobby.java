@@ -1,5 +1,6 @@
 package net.bridgesapis.bungeebridge.commands;
 
+import net.bridgesapis.bungeebridge.i18n.I18n;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -25,12 +26,12 @@ public class CommandLobby extends Command {
         if (arg1.length > 0) {
             try {
                 Integer lnumber = Integer.decode(arg1[0]);
-                LobbyServer s = plugin.getLobbySwitcher().lobbyData.getServerByName("Lobby_"+lnumber);
+                LobbyServer s = plugin.getLobbySwitcher().lobbyData.getServerByName(plugin.getLobbySwitcher().getLobbyPrefix() + lnumber);
                 if (s != null) {
                     if (!s.isOnline()) {
-                        arg0.sendMessage(ChatColor.RED+"Ce lobby est hors ligne.");
+                        arg0.sendMessage(ChatColor.RED + I18n.getTranslation("commands.lobby.offline"));
                     } else if (s.getPlayerCount() > s.getMaxPlayers()) {
-                        arg0.sendMessage(ChatColor.RED+"Ce lobby est plein.");
+                        arg0.sendMessage(ChatColor.RED + I18n.getTranslation("commands.lobby.full"));
                     } else {
                         ServerInfo i = ProxyServer.getInstance().getServerInfo(s.getServerName());
                         p.connect(i);
@@ -38,7 +39,7 @@ public class CommandLobby extends Command {
                     return;
                 }
             } catch (NumberFormatException ignored) {
-                arg0.sendMessage(ChatColor.RED + "Numéro de lobby invalide.");
+                arg0.sendMessage(ChatColor.RED + I18n.getTranslation("commands.lobby.invalid"));
                 return;
             }
         }

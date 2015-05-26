@@ -42,4 +42,12 @@ public class I18n {
             }
         return lang.getString(key, key);
     }
+
+	public static String getWord(String word) {
+		return getTranslation("words." + word);
+	}
+
+	public static String getTag() {
+		return getTranslation("plugin_tag");
+	}
 }

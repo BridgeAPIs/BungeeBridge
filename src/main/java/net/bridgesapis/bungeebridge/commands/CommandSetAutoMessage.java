@@ -55,7 +55,7 @@ public class CommandSetAutoMessage extends Command {
 			jedis.expire("automessage", time);
 			jedis.close();
 
-			TextComponent c = new TextComponent("Message automatique définit.");
+			TextComponent c = new TextComponent(I18n.getTranslation("automessage_defined"));
 			c.setColor(ChatColor.GREEN);
 			p.sendMessage(c);
 		}

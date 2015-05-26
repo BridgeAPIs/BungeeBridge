@@ -1,6 +1,7 @@
 package net.bridgesapis.bungeebridge.commands;
 
 import net.bridgesapis.bungeebridge.i18n.I18n;
+import net.bridgesapis.bungeebridge.i18n.TranslatorComponent;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -30,7 +31,7 @@ public class CommandGlobal extends Command {
 			c.setColor(ChatColor.RED);
 			p.sendMessage(c);
 		} else if (arg1.length < 1) {
-			TextComponent c = new TextComponent("Aucun message envoyé.");
+			TextComponent c = new TranslatorComponent("commands.glist.not_sent");
 			c.setColor(ChatColor.RED);
 			p.sendMessage(c);
 		} else {
