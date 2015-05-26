@@ -19,8 +19,6 @@ public class PlayerLeaveEvent implements Listener {
 	 */
 	@EventHandler
 	public void onPlayerLeave(final PlayerDisconnectEvent event) {
-		if (plugin.hasLobbySwitcher())
-			plugin.getLobbySwitcher().affected_Lobbys.remove(event.getPlayer().getUniqueId());
 		//plugin.partiesManager.logout(event.getPlayer().getUniqueId(), event.getPlayer().getName());
 		plugin.getChatListener().removeMute(event.getPlayer().getUniqueId());
 	}

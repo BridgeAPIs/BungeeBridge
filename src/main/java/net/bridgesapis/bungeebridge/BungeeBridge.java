@@ -12,7 +12,7 @@ import net.bridgesapis.bungeebridge.interactions.privatemessages.CommandMsg;
 import net.bridgesapis.bungeebridge.interactions.privatemessages.PrivateMessagesHandler;
 import net.bridgesapis.bungeebridge.listeners.ChatListener;
 import net.bridgesapis.bungeebridge.listeners.PlayerLeaveEvent;
-import net.bridgesapis.bungeebridge.lobbys.LobbySwitcher;
+import net.bridgesapis.bungeebridge.lobbys.LobbyManager;
 import net.bridgesapis.bungeebridge.moderation.ModMessageHandler;
 import net.bridgesapis.bungeebridge.moderation.commands.*;
 import net.bridgesapis.bungeebridge.permissions.PermissionsBridge;
@@ -61,7 +61,7 @@ public class BungeeBridge extends Plugin {
 	private PrivateMessagesManager privateMessagesManager = null;
 	private FriendsManagement friendsManagement = null;
 	private PartiesManager partiesManager = null;
-	private LobbySwitcher lobbySwitcher = null;
+	private LobbyManager lobbySwitcher = null;
 
 	public void onEnable() {
 		try {
@@ -119,7 +119,7 @@ public class BungeeBridge extends Plugin {
 			}
 
 			if (configuration.getBoolean("modules.lobbies.enabled", true)) {
-				lobbySwitcher = new LobbySwitcher(this, configuration.getString("modules.lobbies.lobbyprefix", "Lobby_"));
+				lobbySwitcher = new LobbyManager(this, configuration.getString("modules.lobbies.lobbyprefix", "Lobby_"));
 				getProxy().getPluginManager().registerCommand(this, new CommandLobby(this));
 			}
 
@@ -200,7 +200,7 @@ public class BungeeBridge extends Plugin {
 		return friendsManagement;
 	}
 
-	public LobbySwitcher getLobbySwitcher() {
+	public LobbyManager getLobbySwitcher() {
 		return lobbySwitcher;
 	}
 

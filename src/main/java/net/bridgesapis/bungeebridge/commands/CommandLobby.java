@@ -8,7 +8,6 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.bridgesapis.bungeebridge.BungeeBridge;
-import net.bridgesapis.bungeebridge.lobbys.LobbyServer;
 
 public class CommandLobby extends Command {
 
@@ -26,17 +25,10 @@ public class CommandLobby extends Command {
         if (arg1.length > 0) {
             try {
                 Integer lnumber = Integer.decode(arg1[0]);
-                LobbyServer s = plugin.getLobbySwitcher().lobbyData.getServerByName(plugin.getLobbySwitcher().getLobbyPrefix() + lnumber);
-                if (s != null) {
-                    if (!s.isOnline()) {
-                        arg0.sendMessage(ChatColor.RED + I18n.getTranslation("commands.lobby.offline"));
-                    } else if (s.getPlayerCount() > s.getMaxPlayers()) {
-                        arg0.sendMessage(ChatColor.RED + I18n.getTranslation("commands.lobby.full"));
-                    } else {
-                        ServerInfo i = ProxyServer.getInstance().getServerInfo(s.getServerName());
-                        p.connect(i);
-                    }
-                    return;
+				ServerInfo info = plugin.getLobbySwitcher().getByNumber(lnumber);
+                if (info != null) {
+                    p.connect(info);
+					return;
                 }
             } catch (NumberFormatException ignored) {
                 arg0.sendMessage(ChatColor.RED + I18n.getTranslation("commands.lobby.invalid"));

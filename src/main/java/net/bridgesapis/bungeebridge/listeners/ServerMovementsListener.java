@@ -64,36 +64,27 @@ public class ServerMovementsListener implements Listener {
 		if(e.getTarget().getName().equals("main")) {
 			ProxyServer.getInstance().getLogger().info("[Server kicked player] " + e.getPlayer().getDisplayName());
 
+			/*
 			Server old = e.getPlayer().getServer();
 			if (old != null) {
 				plugin.getLobbySwitcher().kickFromLobby(e.getPlayer(), old.getInfo().getName());
 			} else {
 				plugin.getLobbySwitcher().cursiveJoin(e.getPlayer());
+			}*/
+			if (plugin.hasLobbySwitcher()) {
+				ServerInfo info = plugin.getLobbySwitcher().joinHub(e.getPlayer());
+				if (info != null) {
+					e.setTarget(info);
+					plugin.getLobbySwitcher().save(e.getPlayer().getUniqueId(), info.getName());
+				}
 			}
-
-			confirmConnection(e);
 		}
 
 		if(!e.getTarget().getName().equals("lobby")) {
 			return;
 		}
-
-		confirmConnection(e);
 	}
 
-	/**
-	 * Confirme la connection à un hub
-	 * @param e
-	 */
-	private void confirmConnection(final ServerConnectEvent e) {
-		ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(plugin.getLobbySwitcher().cursiveJoin(e.getPlayer()));
-		if(serverInfo != null) {
-			e.setTarget(serverInfo);
-		} else {
-			plugin.getLobbySwitcher().connectMain(e.getPlayer());
-			e.setCancelled(true);
-		}
-	}
 
 	/**
 	 * Le joueur finit sa connexion au serveur. On sauvegarde son lobby
