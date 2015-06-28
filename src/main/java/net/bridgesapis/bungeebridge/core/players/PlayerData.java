@@ -26,7 +26,7 @@ public class PlayerData extends PlayerDataAbstract {
 
 	protected void refreshIfNeeded() {
 		if (lastRefresh == null || (lastRefresh.getTime() + (1000 * 60 * 5)) < System.currentTimeMillis()) {
-			updateData();
+			BungeeBridge.getInstance().getExecutor().addTask(this::updateData);
 		}
 	}
 
