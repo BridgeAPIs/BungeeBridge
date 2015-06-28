@@ -8,6 +8,7 @@ import net.bridgesapis.bungeebridge.i18n.I18n;
 import net.bridgesapis.bungeebridge.utils.Misc;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ServerPing;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.*;
@@ -101,14 +102,14 @@ public class BridgeListener implements Listener {
 			final ServerSettings instance = bridge.getPlugin().getServerSettings();
 			if (! instance.isAllowJoin()) {
 				e.setCancelled(true);
-				e.setCancelReason(ChatColor.RED + "Le serveur n'est pas prêt à accueillir des joueurs.");
+				e.setCancelReason(I18n.getTranslation("serverstate.not_ready"));
 				e.completeIntent(plugin);
 				return;
 			}
 
 			if (e.getConnection().getVersion() < ProtocolConstants.MINECRAFT_1_8) {
 				e.setCancelled(true);
-				e.setCancelReason(ChatColor.RED + "Ce serveur nécessite Minecraft en version 1.8 minimum.");
+				e.setCancelReason(I18n.getTranslation("serverstate.unsupported_version"));
 				e.completeIntent(plugin);
 				return;
 			}
@@ -120,9 +121,9 @@ public class BridgeListener implements Listener {
 			if (instance.getType().equals(ServerSettings.CloseType.CLOSED)) {
 				if (! user.hasPermission("netjoin.closed")) {
 					e.setCancelled(true);
-					e.setCancelReason(ChatColor.RED + "Le serveur est en maintenance.");
+					e.setCancelReason(I18n.getTranslation("serverstate.closed"));
 					try {
-						e.getConnection().disconnect(new ComponentBuilder("Le serveur est en maintenance.").color(ChatColor.RED).create());
+						e.getConnection().disconnect(new ComponentBuilder(I18n.getTranslation("serverstate.closed")).color(ChatColor.RED).create());
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -134,9 +135,9 @@ public class BridgeListener implements Listener {
 			if (instance.getType().equals(ServerSettings.CloseType.CLOSED)) {
 				if (! user.hasPermission("netjoin.closed") || ! user.hasPermission("netjoin.vip")) {
 					e.setCancelled(true);
-					e.setCancelReason(ChatColor.RED + "Accès réservé aux " + ChatColor.GREEN + "VIP");
+					e.setCancelReason(I18n.getTranslation("serverstate.reserved_to_permission"));
 					try {
-						e.getConnection().disconnect(new ComponentBuilder(ChatColor.RED + "Accès réservé aux " + ChatColor.GREEN + "VIP").create());
+						e.getConnection().disconnect(new ComponentBuilder(I18n.getTranslation("serverstate.reserved_to_permission")).create());
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -150,11 +151,8 @@ public class BridgeListener implements Listener {
 			if (joueurs >= instance.getMaxPlayers()) {
 				if (! user.hasPermission("netjoin.full")) {
 					e.setCancelled(true);
-					TextComponent reason = new TextComponent("Le serveur est plein. Devenez ");
-					reason.setColor(ChatColor.RED);
-					reason.addExtra(new ComponentBuilder("VIP ").color(ChatColor.GREEN).create()[0]);
-					reason.addExtra(new ComponentBuilder("pour vous connecter quand même.").color(ChatColor.RED).create()[0]);
-					e.setCancelReason(reason.getText());
+					BaseComponent[] reason = new ComponentBuilder(I18n.getTranslation("partially_full")).create();
+					e.setCancelReason(I18n.getTranslation("partially_full"));
 					try {
 						e.getConnection().disconnect(reason);
 					} catch (Exception ex) {
@@ -170,17 +168,20 @@ public class BridgeListener implements Listener {
 			if (ban != null) {
 
 				long ttl = jedis.ttl("banlist:reason:" + id); // Requête tout le temps
-				String duration = "définitivement";
+				String duration = I18n.getTranslation("duration.forever");
 				if (ttl >= 0) {
 					duration = Misc.formatTime(ttl);
 				}
-				TextComponent reason = new TextComponent("Vous êtes banni " + duration + ". \nMotif : " + ban);
-				reason.setColor(ChatColor.RED);
 
-				e.setCancelReason(ChatColor.RED + "Vous êtes banni " + duration + ". \nMotif : " + ban);
+				String reason = I18n.getTranslation("banmessage").replace("%DURATION%", duration).replace("%REASON%", ban);
+
+				TextComponent component = new TextComponent(reason);
+				component.setColor(ChatColor.RED);
+
+				e.setCancelReason(reason);
 				e.setCancelled(true);
 				try {
-					e.getConnection().disconnect(reason);
+					e.getConnection().disconnect(component);
 				} catch (Exception ex) {
 
 				}
@@ -209,7 +210,7 @@ public class BridgeListener implements Listener {
 
 		} catch (Exception ex) {
 			e.setCancelled(true);
-			e.setCancelReason(ChatColor.RED + "Une erreur s'est produite durant votre connexion : "+ex.getMessage());
+			e.setCancelReason(I18n.getTranslation("serverstate.error").replace("%ERROR%", ex.getMessage()));
 		}
 		e.completeIntent(plugin);
 	}
@@ -250,7 +251,7 @@ public class BridgeListener implements Listener {
 		} catch (Exception e) {
 			ServerPing ping = event.getResponse();
 			ping.setPlayers(new ServerPing.Players(0, 0, new ServerPing.PlayerInfo[]{}));
-			ping.setDescription(ChatColor.RED + "[X] Network Difficulties [X] \n > The server is currently down.");
+			ping.setDescription(I18n.getTranslation("ping_database_down"));
 			event.setResponse(ping);
 		}
 	}

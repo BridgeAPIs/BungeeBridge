@@ -2,6 +2,7 @@ package net.bridgesapis.bungeebridge.interactions.friends;
 
 import com.google.gson.Gson;
 import net.bridgesapis.bungeebridge.BungeeBridge;
+import net.bridgesapis.bungeebridge.i18n.I18n;
 import net.bridgesapis.bungeebridge.utils.SettingsManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -37,13 +38,13 @@ public class FriendsManagement {
     public String sendRequest(UUID from, UUID add) {
 
         if (from.equals(add))
-            return ChatColor.RED + "Vous ne pouvez pas devenir ami de vous même.";
+            return I18n.getModuleTranslation("friends", "command.add.cannot_friend_yourself");
 
         String dbKey = "friendrequest:"+from+":"+add;
         String checkKey = "friendrequest:"+add+":"+from;
 
         if (isFriend(from, add)) {
-            return ChatColor.RED+"Vous êtes déjà ami avec cette personne.";
+            return I18n.getModuleTranslation("friends", "command.add.already_friend_with");
         }
 
         Jedis jedis = plugin.getConnector().getResource();
@@ -55,23 +56,23 @@ public class FriendsManagement {
 
         if (value != null) {
             jedis.close();
-            return ChatColor.RED+"Vous avez déjà envoyé une demande d'ami a cette personne. Merci d'attendre qu'elle y réponde.";
+            return I18n.getModuleTranslation("friends", "command.add.already_sent_a_demand");
         }
 
         String allow = SettingsManager.getSetting(add, "friendsenabled");
         if (allow != null && allow.equals("false")) {
             jedis.close();
-            return ChatColor.RED+"Cette personne n'autorise pas les demandes d'ami.";
+            return I18n.getModuleTranslation("friends", "command.add.demands_refused");
         }
 
         if (!BungeeBridge.getInstance().getNetworkBridge().isOnline(add)) {
             jedis.close();
-            return ChatColor.RED+"Ce joueur n'est pas en ligne.";
+            return I18n.getTranslation("commands.locate.offline");
         }
 
         if (add == null) {
             jedis.close();
-            return ChatColor.RED + "Une erreur s'est produite.";
+            return I18n.getTranslation("commands.misc.error_occured");
         }
 
         FriendRequest request = new FriendRequest(from, add, new Date());
@@ -80,7 +81,7 @@ public class FriendsManagement {
 
 		BungeeBridge.getInstance().getPublisher().publish(new Publisher.PendingMessage("friends.request", from + " " + add + " " + System.currentTimeMillis()));
 
-        return ChatColor.GREEN+"Demande d'ami envoyée.";
+        return I18n.getModuleTranslation("friends", "command.add.demand_sent");
     }
 
     public boolean isFriend(UUID from, UUID isFriend) {
@@ -90,10 +91,10 @@ public class FriendsManagement {
     public String grantRequest(UUID from, UUID add) {
 
         if (from.equals(add))
-            return ChatColor.RED + "Vous ne pouvez pas devenir ami de vous même.";
+            return I18n.getModuleTranslation("friends", "command.add.cannot_friend_yourself");
 
         if (isFriend(from, add))
-            return ChatColor.RED+"Vous êtes déjà ami avec cette personne.";
+            return I18n.getModuleTranslation("friends", "command.add.already_friend_with");
 
 
         String dbKey = "friendrequest:"+from+":"+add;
@@ -101,14 +102,14 @@ public class FriendsManagement {
         String value = jedis.get(dbKey);
         if (value == null) {
             jedis.close();
-            return ChatColor.RED+"Aucune demande d'ami correspondante.";
+            return I18n.getModuleTranslation("friends", "command.accept.demand_not_found");
         }
 
         jedis.del(dbKey);
 
         if (add == null) {
             jedis.close();
-            return ChatColor.RED + "Une erreur s'est produite.";
+            return I18n.getTranslation("commands.misc.error_occured");
         }
 
         jedis.rpush("friends:"+from, add.toString());
@@ -120,7 +121,7 @@ public class FriendsManagement {
 
         String pseudo = BungeeBridge.getInstance().getUuidTranslator().getName(from, false);
 
-        return ChatColor.GREEN+"Vous êtes maintenant ami avec "+pseudo+".";
+        return I18n.getModuleTranslation("friends", "command.accept.now_friend_with").replace("%NAME%", (pseudo == null ? ChatColor.RED + "UnknownName" + ChatColor.RESET : pseudo));
     }
 
     public String denyRequest(UUID from, UUID add) {
@@ -129,7 +130,7 @@ public class FriendsManagement {
         String value = jedis.get(dbKey);
         if (value == null) {
             jedis.close();
-            return ChatColor.RED+"Aucune demande d'ami correspondante.";
+            return I18n.getModuleTranslation("friends", "command.accept.demand_not_found");
         }
 
         jedis.del(dbKey);
@@ -139,7 +140,7 @@ public class FriendsManagement {
 
 		String pseudo = BungeeBridge.getInstance().getUuidTranslator().getName(from, false);
 
-        return ChatColor.GREEN+"Vous avez refusé la demande d'ami de "+pseudo+".";
+        return I18n.getModuleTranslation("friends", "command.deny.demand_refused").replace("%NAME%", (pseudo == null ? ChatColor.RED + "UnknownName" + ChatColor.RESET : pseudo));
     }
 
     public String removeFriend(UUID asking, UUID askTo) {
@@ -150,8 +151,11 @@ public class FriendsManagement {
         boolean failed = (jedis.lrem(dbKey, 0, askTo.toString()) == 0 || jedis.lrem(dbKeyTo, 0, asking.toString()) == 0);
         jedis.close();
         if (failed)
-            return ChatColor.RED+"Une erreur s'est produite : vous n'êtes pas ami(e) avec cette personne.";
-        return ChatColor.GREEN+"Vous n'êtes plus ami(e) avec "+plugin.getUuidTranslator().getName(askTo, false)+".";
+            return I18n.getModuleTranslation("friends", "command.remove.not_friend_with");
+        String name = plugin.getUuidTranslator().getName(askTo, false);
+        if (name == null)
+            name = ChatColor.RED + "UnknownName";
+        return I18n.getModuleTranslation("friends", "command.remove.friend_removed").replace("%NAME%", name);
     }
 
     public ArrayList<String> friendList(UUID asking) {
@@ -255,18 +259,18 @@ public class FriendsManagement {
 		if (pseudo == null)
 			return;
 
-		TextComponent line = new TextComponent(ChatColor.GOLD+"Vous avez reçu une demande d'ami de "+ChatColor.AQUA+pseudo+ChatColor.GOLD+" : ");
-		TextComponent accept = new TextComponent("[Accepter]");
-		accept.setColor(ChatColor.GREEN);
-		accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friends accept "+pseudo));
-		accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GREEN+"Accepter la demande d'ami").create()));
-		TextComponent refuse = new TextComponent("[Refuser]");
-		refuse.setColor(ChatColor.RED);
-		refuse.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friends deny "+pseudo));
-		refuse.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.RED+"Refuser la demande d'ami").create()));
-		line.addExtra(accept);
-		line.addExtra(new ComponentBuilder(" ou ").color(ChatColor.GOLD).create()[0]);
-		line.addExtra(refuse);
+		TextComponent line = new TextComponent(I18n.getModuleTranslation("friends", "demand_receive.message").replace("%NAME%", pseudo));
+        TextComponent accept = new TextComponent(I18n.getModuleTranslation("friends", "command.requests.demand_accept_button"));
+        accept.setColor(ChatColor.GREEN);
+        accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friends accept "+pseudo));
+        accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(I18n.getModuleTranslation("friends", "command.requests.demand_accept_hover")).create()));
+        TextComponent refuse = new TextComponent(I18n.getModuleTranslation("friends", "command.requests.demand_refuse_button"));
+        refuse.setColor(ChatColor.RED);
+        refuse.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friends deny "+pseudo));
+        refuse.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(I18n.getModuleTranslation("friends", "command.requests.demand_refuse_hover")).create()));
+        line.addExtra(accept);
+        line.addExtra(new ComponentBuilder(" " + I18n.getWord("or") + " ").color(ChatColor.GOLD).create()[0]);
+        line.addExtra(refuse);
 
 		pl.sendMessage(line);
 	}
@@ -281,9 +285,9 @@ public class FriendsManagement {
 			return;
 
 		if (accepted) {
-			pl.sendMessage(new ComponentBuilder(pseudo+" a accepté votre demande d'ami.").color(ChatColor.GREEN).create());
+			pl.sendMessage(new ComponentBuilder(I18n.getModuleTranslation("friends", "demand_receive.notify_accept").replace("%NAME%", pseudo)).color(ChatColor.GREEN).create());
 		} else {
-			pl.sendMessage(new ComponentBuilder(pseudo+" a refusé votre demande d'ami.").color(ChatColor.RED).create());
+			pl.sendMessage(new ComponentBuilder(I18n.getModuleTranslation("friends", "demand_receive.notify_refuse").replace("%NAME%", pseudo)).color(ChatColor.RED).create());
 		}
 
 	}

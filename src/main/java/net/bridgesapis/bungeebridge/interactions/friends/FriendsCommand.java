@@ -1,6 +1,7 @@
 package net.bridgesapis.bungeebridge.interactions.friends;
 
 import net.bridgesapis.bungeebridge.BungeeBridge;
+import net.bridgesapis.bungeebridge.i18n.I18n;
 import net.bridgesapis.bungeebridge.utils.TeleportTools;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -25,20 +26,30 @@ public class FriendsCommand extends Command implements TabExecutor {
     }
 
     public void showHelp(CommandSender target) {
-        target.sendMessage(new TextComponent(ChatColor.GREEN+"----- " + ChatColor.GOLD + "Aide amis :"+ChatColor.GREEN+" -----"));
-        target.sendMessage(new ComponentBuilder(ChatColor.GOLD+"- "+ChatColor.GREEN+"/friends add <pseudo>"+ChatColor.GOLD+" : envoie une demande d'ami au joueur").create()[0]);
-        target.sendMessage(new ComponentBuilder(ChatColor.GOLD+"- "+ChatColor.GREEN+"/friends accept <pseudo>"+ChatColor.GOLD+" : accepte un joueur en ami").create()[0]);
-        target.sendMessage(new ComponentBuilder(ChatColor.GOLD+"- "+ChatColor.GREEN+"/friends deny <pseudo>"+ChatColor.GOLD+" : refuse la demande d'ami du joueur").create()[0]);
-        target.sendMessage(new ComponentBuilder(ChatColor.GOLD+"- "+ChatColor.GREEN+"/friends remove <pseudo>"+ChatColor.GOLD+" : supprime le joueur de vos amis").create()[0]);
-        target.sendMessage(new ComponentBuilder(ChatColor.GOLD+"- "+ChatColor.GREEN+"/friends requests"+ChatColor.GOLD+" : affiche la liste de vos demandes d'ami").create()[0]);
-        target.sendMessage(new ComponentBuilder(ChatColor.GOLD+"- "+ChatColor.GREEN+"/friends list"+ChatColor.GOLD+" : affiche la liste de vos amis").create()[0]);
-        target.sendMessage(new ComponentBuilder(ChatColor.GOLD+"- "+ChatColor.GREEN+"/friends tp <pseudo>"+ChatColor.GOLD+" : vous téléporte sur le même serveur que votre ami").create()[0]);
+        target.sendMessage(new TextComponent(I18n.getModuleTranslation("friends", "command.help.head")));
+        target.sendMessage(new ComponentBuilder(getCommandHelp("add", "%NAME%")).create());
+        target.sendMessage(new ComponentBuilder(getCommandHelp("accept", "%NAME%")).create());
+        target.sendMessage(new ComponentBuilder(getCommandHelp("deny", "%NAME%")).create());
+        target.sendMessage(new ComponentBuilder(getCommandHelp("remove", "%NAME%")).create());
+        target.sendMessage(new ComponentBuilder(getCommandHelp("tp", "%NAME%")).create());
+        target.sendMessage(new ComponentBuilder(getCommandHelp("requests", "")).create());
+        target.sendMessage(new ComponentBuilder(getCommandHelp("list", "")).create());
+    }
+
+    private String getCommandHelp(String command, String args) {
+        String global = I18n.getModuleTranslation("friends", "command.help.global_formating");
+        String name = I18n.getModuleTranslation("friends", "command.help.name_argument_tag");
+        String description = I18n.getModuleTranslation("friends", "command.help.helps." + command);
+
+        args = command + (args.length() > 0 ? " " + args : "");
+        args = args.replace("%NAME%", name);
+        return global.replace("%ARGS%", args).replace("%DESCRIPTION%", description);
     }
 
     @Override
     public void execute(final CommandSender sender, final String[] args) {
         if (!(sender instanceof ProxiedPlayer)) {
-            sender.sendMessage(new ComponentBuilder("Vous n'êtes pas un joueur.").color(ChatColor.RED).create());
+            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.misc.not_a_player")).color(ChatColor.RED).create());
             return;
         }
 
@@ -57,7 +68,7 @@ public class FriendsCommand extends Command implements TabExecutor {
                         showHelp(sender);
                     } else if (command.equalsIgnoreCase("add")) {
                         if (arg == null) {
-                            sender.sendMessage(new ComponentBuilder("Cette commande nécessite un argument.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.misc.missing_args")).color(ChatColor.RED).create());
                             return;
                         }
 
@@ -65,12 +76,12 @@ public class FriendsCommand extends Command implements TabExecutor {
                         try {
                             target = friendsManagement.plugin.getUuidTranslator().getUUID(arg, false);
                         } catch (Exception e) {
-                            sender.sendMessage(new ComponentBuilder("Le pseudo n'est pas valide.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
                         if (target == null) {
-                            sender.sendMessage(new ComponentBuilder("Le pseudo n'est pas valide.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
@@ -78,7 +89,7 @@ public class FriendsCommand extends Command implements TabExecutor {
                         sender.sendMessage(rep);
                     } else if (command.equalsIgnoreCase("accept")) {
                         if (arg == null) {
-                            sender.sendMessage(new ComponentBuilder("Cette commande nécessite un argument.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
@@ -86,12 +97,12 @@ public class FriendsCommand extends Command implements TabExecutor {
                         try {
 							target = friendsManagement.plugin.getUuidTranslator().getUUID(arg, false);
                         } catch (Exception e) {
-                            sender.sendMessage(new ComponentBuilder("Le pseudo n'est pas valide.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
                         if (target == null) {
-                            sender.sendMessage(new ComponentBuilder("Le pseudo n'est pas valide.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
@@ -99,7 +110,7 @@ public class FriendsCommand extends Command implements TabExecutor {
                         sender.sendMessage(rep);
                     } else if (command.equalsIgnoreCase("deny")) {
                         if (arg == null) {
-                            sender.sendMessage(new ComponentBuilder("Cette commande nécessite un argument.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.misc.missing_args")).color(ChatColor.RED).create());
                             return;
                         }
 
@@ -107,12 +118,12 @@ public class FriendsCommand extends Command implements TabExecutor {
                         try {
 							target = friendsManagement.plugin.getUuidTranslator().getUUID(arg, false);
                         } catch (Exception e) {
-                            sender.sendMessage(new ComponentBuilder("Le pseudo n'est pas valide.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
                         if (target == null) {
-                            sender.sendMessage(new ComponentBuilder("Le pseudo n'est pas valide.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
@@ -120,7 +131,7 @@ public class FriendsCommand extends Command implements TabExecutor {
                         sender.sendMessage(rep);
                     } else if (command.equalsIgnoreCase("remove")) {
                         if (arg == null) {
-                            sender.sendMessage(new ComponentBuilder("Cette commande nécessite un argument.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.misc.missing_args")).color(ChatColor.RED).create());
                             return;
                         }
 
@@ -128,12 +139,12 @@ public class FriendsCommand extends Command implements TabExecutor {
                         try {
 							target = friendsManagement.plugin.getUuidTranslator().getUUID(arg, false);
                         } catch (Exception e) {
-                            sender.sendMessage(new ComponentBuilder("Le pseudo n'est pas valide.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
                         if (target == null) {
-                            sender.sendMessage(new ComponentBuilder("Le pseudo n'est pas valide.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
@@ -141,7 +152,7 @@ public class FriendsCommand extends Command implements TabExecutor {
                         sender.sendMessage(rep);
                     } else if (command.equalsIgnoreCase("tp")) {
                         if (arg == null) {
-                            sender.sendMessage(new ComponentBuilder("Cette commande nécessite un argument.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.misc.missing_args")).color(ChatColor.RED).create());
                             return;
                         }
 
@@ -149,36 +160,36 @@ public class FriendsCommand extends Command implements TabExecutor {
                         try {
 							target = friendsManagement.plugin.getUuidTranslator().getUUID(arg, false);
                         } catch (Exception e) {
-                            sender.sendMessage(new ComponentBuilder("Le pseudo n'est pas valide.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
                         if (target == null) {
-                            sender.sendMessage(new ComponentBuilder("Le pseudo n'est pas valide.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.locate.invalid")).color(ChatColor.RED).create());
                             return;
                         }
 
                         if (!friendsManagement.isFriend(player.getUniqueId(), target)) {
-                            sender.sendMessage(new ComponentBuilder("Vous n'êtes pas ami avec cette personne.").color(ChatColor.RED).create());
+                            sender.sendMessage(new ComponentBuilder(I18n.getModuleTranslation("friends", "not_friend_with")).color(ChatColor.RED).create());
                             return;
                         }
 
                         TeleportTools.teleportFriend(player, target);
                     } else if (command.equalsIgnoreCase("requests")) {
-                        TextComponent text = new TextComponent(ChatColor.YELLOW+"----- "+ChatColor.GOLD+"Voici vos demandes d'ami en attente :"+ChatColor.YELLOW+" -----");
+                        TextComponent text = new TextComponent(I18n.getModuleTranslation("friends", "command.requests.head"));
                         player.sendMessage(text);
                         for (String pseudo : friendsManagement.requestsList(player.getUniqueId())) {
-                            TextComponent line = new TextComponent(ChatColor.GOLD+"-> Demande de "+ChatColor.AQUA+pseudo+ChatColor.GOLD+" : ");
-                            TextComponent accept = new TextComponent("[Accepter]");
+                            TextComponent line = new TextComponent(I18n.getModuleTranslation("friends", "command.requests.demand_from").replace("%NAME%", pseudo));
+                            TextComponent accept = new TextComponent(I18n.getModuleTranslation("friends", "command.requests.demand_accept_button"));
                             accept.setColor(ChatColor.GREEN);
                             accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friends accept "+pseudo));
-                            accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GREEN+"Accepter la demande d'ami").create()));
-                            TextComponent refuse = new TextComponent("[Refuser]");
+                            accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(I18n.getModuleTranslation("friends", "command.requests.demand_accept_hover")).create()));
+                            TextComponent refuse = new TextComponent(I18n.getModuleTranslation("friends", "command.requests.demand_refuse_button"));
                             refuse.setColor(ChatColor.RED);
                             refuse.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friends deny "+pseudo));
-                            refuse.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.RED + "Refuser la demande d'ami").create()));
+                            refuse.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(I18n.getModuleTranslation("friends", "command.requests.demand_refuse_hover")).create()));
                             line.addExtra(accept);
-                            line.addExtra(new ComponentBuilder(" ou ").color(ChatColor.GOLD).create()[0]);
+                            line.addExtra(new ComponentBuilder(" " + I18n.getWord("or") + " ").color(ChatColor.GOLD).create()[0]);
                             line.addExtra(refuse);
                             player.sendMessage(line);
                         }
@@ -189,28 +200,27 @@ public class FriendsCommand extends Command implements TabExecutor {
                         ArrayList<TextComponent> messages = new ArrayList<>();
                         for (Map.Entry<UUID, String> entry : list.entrySet()) {
                             String pseudo = entry.getValue();
-                            TextComponent line = new TextComponent(ChatColor.GOLD+"-> ");
-                            TextComponent tpseudo = new TextComponent(pseudo+ " ");
-                            if (friendsManagement.plugin.getNetworkBridge().isOnline(entry.getKey()))
-                                tpseudo.setColor(ChatColor.GREEN);
-                            else
-                                tpseudo.setColor(ChatColor.RED);
+
+                            boolean isOnline = friendsManagement.plugin.getNetworkBridge().isOnline(entry.getKey());
+                            String name = (isOnline ? ChatColor.GREEN : ChatColor.RED) + pseudo;
+
+                            TextComponent line = new TextComponent(I18n.getModuleTranslation("friends", "command.list.item_format").replace("%NAME%", name));
+
                             TextComponent refuse = new TextComponent("[Supprimer]");
                             refuse.setColor(ChatColor.RED);
                             refuse.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friends remove "+pseudo));
                             refuse.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.RED+"Supprimer cet ami").create()));
-                            line.addExtra(tpseudo);
                             line.addExtra(refuse);
                             messages.add(line);
                         }
 
-                        TextComponent text = new TextComponent(ChatColor.YELLOW+"----- "+ChatColor.GOLD+"Voici votre liste d'amis :"+ChatColor.YELLOW+" -----");
+                        TextComponent text = new TextComponent(I18n.getModuleTranslation("friends", "command.list.head"));
                         player.sendMessage(text);
 
                         for (TextComponent t : messages)
                             player.sendMessage(t);
                     } else {
-                        sender.sendMessage(new ComponentBuilder("Cette commande n'est pas reconnue.").color(ChatColor.RED).create());
+                        sender.sendMessage(new ComponentBuilder(I18n.getTranslation("commands.misc.unknown_subcommand")).color(ChatColor.RED).create());
                     }
                 }
 

@@ -6,7 +6,27 @@ already_connected: "Vous êtes déjà connecté depuis un autre proxy."
 automessage_removed: "Message automatique supprimé."
 automessage_defined: "Message automatique définit."
 command_sent: "La commande a été émise."
-global_prefix: "§4[§c§lAnnonce§4] §c§l %NAME% : §6 %MESSAGE%"
+global_prefix: "§4[§c§lAnnonce§4]§c§l %NAME% : §6 %MESSAGE%"
+
+serverstate:
+  not_ready: "§cLe serveur n'est pas prêt à accueillir des joueurs."
+  unsupported_version: "§cCe serveur nécessite Minecraft en version 1.8 minimum."
+  closed: "§cLe serveur est en maintenance."
+  # Used when the server is closed to anywhone without the permission netjoin.closed or netjoin.vip
+  reserved_to_permission: "§cAccès réservé aux §aVIP"
+  # Used when the server is full but some people with a special permission can still connect (i.e VIP players). Permission : netjoin.full
+  # Please note that after the slot limit, anyone with this permission can connect without restriction
+  # Don't give it to anyone if your network cannot support more players than announced slots
+  partially_full: "§cLe serveur est plein. Devenez §aVIP §cpour vous connecter quand même."
+  error: "§cUne erreur s'est produite durant votre connexion : %ERROR%"
+
+banmessage: "§cVous êtes banni %DURATION%. Motif : %REASON%"
+
+# This message is displayed as the server ping response when the database doesn't respond to requests (offline/unreachable)
+ping_database_down: "§c[X] Network Difficulties [X] \n> The server is currently down."
+
+duration:
+  forever: "définitivement"
 
 plugin_tag: "BungeeBridge" # Used as a ''network name''. If your network is called SuperMC, for example, you should change this value to SuperMC
 
@@ -14,6 +34,7 @@ words:
   player: "joueur"
   help: "aide"
   unknown: "inconnu"
+  or: "ou"
 
 help:
   msg:
@@ -50,3 +71,56 @@ commands:
   setoption:
     unknown: "Option non reconnue."
     defined: "Option définie."
+  misc:
+    missing_args: "§cCette commande nécessite un argument."
+    # When the sender is not a player (for example the console)
+    not_a_player: "§cVous n'êtes pas un joueur"
+    unknown_subcommand: "§cCette commande n'est pas reconnue."
+    error_occured: "§cUne erreur s'est produite"
+
+modules:
+  friends:
+    not_friend_with: "§cVous n'êtes pas ami avec cette personne"
+    command:
+      help:
+        head: "§a----- §6Aide amis : §a-----"
+        name_argument_tag: "<pseudo>"
+        global_formating: "§6- §a/friends %ARGS% §6: %DESCRIPTION%"
+        helps:
+          add: "envoie une demande d'ami au joueur"
+          accept: "accepte un joueur en ami"
+          deny: "refuse la demande d'ami du joueur"
+          remove: "supprime le joueur de vos amis"
+          requests: "affiche la liste de vos demandes d'ami"
+          list: "affiche la liste de vos amis"
+          tp: "vous téléporte sur le même serveur que votre ami"
+      requests:
+        head: "§e----- §6Voici vos demandes d'ami en attente :§e -----"
+        demand_from: "§6-> Demande de §b%NAME%§6 : "
+        demand_accept_button: "[Accepter]" #Always green
+        demand_accept_hover: "§aAccepter la demande d'ami"
+        demand_refuse_button: "[Refuser]" #Always red
+        demand_refuse_hover: "§cRefuser la demande d'ami"
+      list:
+        head: "§e----- §6Voici votre liste d'amis :§e -----"
+        item_format: "§6-> %NAME% " # Please note that name is automatically coloured (green if member is online / red if member is offline). Also note that the delete button will be added at the end of the string
+        delete_button: "[Supprimer]" # Always red
+        delete_hover: "§cSupprimer cet ami" # Delete this friend
+      add:
+        cannot_friend_yourself: "§cVous ne pouvez pas devenir ami de vous même."
+        already_friend_with: "§cVous êtes déjà ami avec cette personne."
+        already_sent_a_demand: "§cVous avez déjà envoyé une demande d'ami a cette personne. Merci d'attendre qu'elle y réponde."
+        demands_refused: "§cCette personne n'accepte pas les demandes d'ami." # This player doesn't accept others friend requests.
+        demand_sent: "§aLa demande d'ami a été envoyée."
+      accept:
+        demand_not_found: "§Aucune demande d'ami correspondante."
+        now_friend_with: "§aVous êtes maintenant ami avec %NAME%."
+      deny:
+        demand_refused: "§aVous avez refusé la demande d'ami de %NAME%."
+      remove:
+        not_friend_with: "§cVous n'êtes pas ami avec cette personne."
+        friend_removed: "§aVous n'êtes plus ami avec %NAME%."
+    demand_receive:
+      message: "§6Vous avez reçu une demande d'ami de §b%NAME% §6: " # Auto append Accept and Refuse buttons (configured in command.requests)
+      notify_accept: "%NAME% a accepté votre demande d'ami." # Green by default, you can change by appending color codes
+      notify_refuse: "%NAME% a refusé votre demande d'ami." # Red by default, you can change by appending color codes

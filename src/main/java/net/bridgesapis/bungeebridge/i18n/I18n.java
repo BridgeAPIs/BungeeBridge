@@ -43,6 +43,10 @@ public class I18n {
         return lang.getString(key, key);
     }
 
+    public static String getModuleTranslation(String module, String key) {
+        return getTranslation("modules." + module + "." + key);
+    }
+
 	public static String getWord(String word) {
 		return getTranslation("words." + word);
 	}
