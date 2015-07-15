@@ -6,9 +6,9 @@ lang: default
 
 database:
   sentinels: [] # Sentinels IP:PORT
-  auth: "" # Authentification
-  mastername: ""
-  cachemastername: ""
+  auth: "" # Authentification key (same for both databases)
+  mastername: "" # A database which will be used to store permanent data
+  cachemastername: "" # A database which will be used to store temporary data. you can use the same as master name (not tested, shall work)
 
 # If you prefear to use a classic Redis network, uncomment the following lines.
 
@@ -27,4 +27,8 @@ modules:
   friends:
     enabled: true
   parties:
-    enabled: false # Module doesn't work without spigotside api // feature still in dev, use with caution
+    # The parties module is not totally finished yet
+    # Moreover, it's not translated at all
+    # Enable it only if you're easy with BungeeCord and Bukkit programming, because you'll have to change the system
+    # Feel free to give me any feedback or any pull request on this feature
+    enabled: false
