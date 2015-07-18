@@ -56,8 +56,13 @@ public class SentinelDatabaseConnector extends DatabaseConnector {
 		config.setMaxTotal(1024);
 		config.setMaxWaitMillis(5000);
 
-		this.mainPool = new JedisSentinelPool(mainMonitorName, sentinels, config, password);
-		this.cachePool = new JedisSentinelPool(cacheMonitorName, sentinels, config, password);
+		if (password == null || password.length() == 0) {
+			this.mainPool = new JedisSentinelPool(mainMonitorName, sentinels, config);
+			this.cachePool = new JedisSentinelPool(cacheMonitorName, sentinels, config);
+		} else {
+			this.mainPool = new JedisSentinelPool(mainMonitorName, sentinels, config, password);
+			this.cachePool = new JedisSentinelPool(cacheMonitorName, sentinels, config, password);
+		}
 
 		plugin.getLogger().info("[Database] Connection initialized.");
 
