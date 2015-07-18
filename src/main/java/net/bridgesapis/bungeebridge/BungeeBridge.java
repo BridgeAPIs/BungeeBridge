@@ -75,7 +75,7 @@ public class BungeeBridge extends Plugin {
 
 
 			configuration = loadConfiguration();
-			proxyName = configuration.getString("proxyname");
+			proxyName = configuration.getString("proxy.name");
 
 			I18n.load(configuration.getString("lang", "default"), this);
 

@@ -38,7 +38,12 @@ public class LobbyManager {
 	}
 
 	private void recoverHubs() {
-		ProxyServer.getInstance().getServers().values().stream().filter(info -> ! lobbies.containsKey(info.getName())).forEach(info -> lobbies.put(info.getName(), info));
+		ProxyServer.getInstance().getServers().values().stream().filter(info -> ! lobbies.containsKey(info.getName())).forEach(info -> {
+			if (info.getName().startsWith(lobbyPrefix)) {
+				lobbies.put(info.getName(), info);
+				plugin.getLogger().info("Added lobby " + info.getName() + " at " + info.getAddress());
+			}
+		});
 		lobbies.keySet().stream().filter(key -> ! ProxyServer.getInstance().getServers().containsKey(key)).forEach(lobbies::remove);
 	}
 
