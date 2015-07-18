@@ -41,6 +41,7 @@ public class SubscribingThread implements Runnable {
 				jedis.close();
 			} catch (Exception e) {
 				ProxyServer.getInstance().getLogger().severe("[DB-WATCHDOG] Exception while getting database : " + e.getMessage() + ". Retrying in 5 seconds.");
+				e.printStackTrace();
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e1) {
