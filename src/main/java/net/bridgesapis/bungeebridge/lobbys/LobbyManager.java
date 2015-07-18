@@ -29,6 +29,8 @@ public class LobbyManager {
 		this.plugin = plugin;
 		this.random = new Random();
 		this.lobbyPrefix = lobbyPrefix;
+
+		ProxyServer.getInstance().getScheduler().schedule(BungeeBridge.getInstance(), () -> recoverHubs(), 5, TimeUnit.SECONDS);
 	}
 
 	public String getLobbyPrefix() {
@@ -46,6 +48,9 @@ public class LobbyManager {
 			name = null;
 
 		if (name == null) {
+			if (lobbies.size() < 1) {
+				return null;
+			}
 			String[] keys = lobbies.keySet().toArray(new String[lobbies.size()]);
 			name = keys[random.nextInt(keys.length)];
 		}

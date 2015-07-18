@@ -1,9 +1,11 @@
 package net.bridgesapis.bungeebridge.listeners;
 
 import net.bridgesapis.bungeebridge.BungeeBridge;
+import net.bridgesapis.bungeebridge.i18n.I18n;
 import net.bridgesapis.bungeebridge.utils.SettingsManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
@@ -76,6 +78,8 @@ public class ServerMovementsListener implements Listener {
 				if (info != null) {
 					e.setTarget(info);
 					plugin.getLobbySwitcher().save(e.getPlayer().getUniqueId(), info.getName());
+				} else {
+					e.getPlayer().disconnect(new ComponentBuilder(I18n.getTranslation("error.no_lobby")).color(ChatColor.RED).create());
 				}
 			}
 		}
