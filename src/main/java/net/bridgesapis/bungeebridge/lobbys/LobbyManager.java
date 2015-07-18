@@ -46,7 +46,7 @@ public class LobbyManager {
 			name = null;
 
 		if (name == null) {
-			String[] keys = (String[]) repartition.asMap().keySet().toArray();
+			String[] keys = lobbies.keySet().toArray(new String[lobbies.size()]);
 			name = keys[random.nextInt(keys.length)];
 		}
 
