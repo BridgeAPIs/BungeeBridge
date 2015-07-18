@@ -42,7 +42,7 @@ public class LobbyManager {
 
 	public ServerInfo joinHub(ProxiedPlayer player) {
 		String name = repartition.getIfPresent(player.getUniqueId());
-		if (!lobbies.containsKey(name))
+		if (name != null && !lobbies.containsKey(name))
 			name = null;
 
 		if (name == null) {
