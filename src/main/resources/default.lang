@@ -138,8 +138,8 @@ modules:
       self_pm_disabled: "Vous ne pouvez pas envoyer de MP car vous les avez désactivés" # Red by default
       other_pm_disabled: "Le joueur refuse les MPs" # Red by default
     display:
-      sent: "§6Message envoyé à §bNAME% §6 : " # Message sent to %NAME% / Additionnal variable : %VIEWER% = the name of the player who sees the message
-      received: "§6Message reçu de §bNAME% §6 : " # Message recieved from %NAME% / Additionnal variable : %VIEWER% = the name of the player who sees the message
+      sent: "§6Message envoyé à §b%NAME% §6 : " # Message sent to %NAME% / Additionnal variable : %VIEWER% = the name of the player who sees the message
+      received: "§6Message reçu de §b%NAME% §6 : " # Message recieved from %NAME% / Additionnal variable : %VIEWER% = the name of the player who sees the message
       sent_color: GRAY # Valid md5 chat color code (type AQUA or RED), used to colorate the message itself | default GRAY
       sent_italic: true # Shall the message be displayed in italic ? 
       received_italic: true # Shall the message be displayed in italic ? 
