@@ -210,7 +210,10 @@ public class BridgeListener implements Listener {
 
 		} catch (Exception ex) {
 			e.setCancelled(true);
-			e.setCancelReason(I18n.getTranslation("serverstate.error").replace("%ERROR%", ex.getMessage()));
+			ex.printStackTrace();
+			String error = I18n.getTranslation("serverstate.error");
+			error.replace("%ERROR%", ex.getMessage());
+			e.setCancelReason(error);
 		}
 		e.completeIntent(plugin);
 	}
