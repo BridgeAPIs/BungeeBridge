@@ -30,7 +30,7 @@ public class LobbyManager {
 		this.random = new Random();
 		this.lobbyPrefix = lobbyPrefix;
 
-		ProxyServer.getInstance().getScheduler().schedule(BungeeBridge.getInstance(), () -> recoverHubs(), 5, TimeUnit.SECONDS);
+		ProxyServer.getInstance().getScheduler().schedule(BungeeBridge.getInstance(), this::recoverHubs, 5, TimeUnit.SECONDS);
 	}
 
 	public String getLobbyPrefix() {

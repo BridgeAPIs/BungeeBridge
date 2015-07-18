@@ -64,7 +64,7 @@ public class ServerMovementsListener implements Listener {
 			return;
 
 		if(e.getTarget().getName().equals("main")) {
-			ProxyServer.getInstance().getLogger().info("[Server kicked player] " + e.getPlayer().getDisplayName());
+			ProxyServer.getInstance().getLogger().info("[Connecting to main] " + e.getPlayer().getDisplayName());
 
 			/*
 			Server old = e.getPlayer().getServer();
@@ -76,16 +76,14 @@ public class ServerMovementsListener implements Listener {
 			if (plugin.hasLobbySwitcher()) {
 				ServerInfo info = plugin.getLobbySwitcher().joinHub(e.getPlayer());
 				if (info != null) {
+					plugin.getLogger().info("Redirecting to lobby : " + info.getName() + " at " + info.getAddress());
 					e.setTarget(info);
 					plugin.getLobbySwitcher().save(e.getPlayer().getUniqueId(), info.getName());
 				} else {
+					plugin.getLogger().info("No lobby found, kicking the player");
 					e.getPlayer().disconnect(new ComponentBuilder(I18n.getTranslation("error.no_lobby")).color(ChatColor.RED).create());
 				}
 			}
-		}
-
-		if(!e.getTarget().getName().equals("lobby")) {
-			return;
 		}
 	}
 
