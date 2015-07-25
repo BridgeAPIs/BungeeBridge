@@ -132,7 +132,7 @@ public class BridgeListener implements Listener {
 				}
 			}
 
-			if (instance.getType().equals(ServerSettings.CloseType.CLOSED)) {
+			if (instance.getType().equals(ServerSettings.CloseType.VIP)) {
 				if (! user.hasPermission("netjoin.closed") || ! user.hasPermission("netjoin.vip")) {
 					e.setCancelled(true);
 					e.setCancelReason(I18n.getTranslation("serverstate.reserved_to_permission"));
