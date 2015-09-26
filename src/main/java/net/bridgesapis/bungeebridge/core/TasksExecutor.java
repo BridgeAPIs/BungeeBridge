@@ -15,7 +15,7 @@ public class TasksExecutor implements Runnable {
 		while (true) {
 			try {
 				pending.take().run();
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

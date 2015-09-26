@@ -62,8 +62,13 @@ public class SingleDatabaseConnector extends DatabaseConnector {
 		String[] cacheParts = StringUtils.split(cacheIp, ":");
 		int cachePort = (cacheParts.length > 1) ? Integer.decode(cacheParts[1]) : 6379;
 
-		this.mainPool = new JedisPool(config, mainParts[0], mainPort, 5000, password);
-		this.cachePool = new JedisPool(config, cacheParts[0], cachePort, 5000, password);
+		if (password == null || password.length() == 0) {
+			this.mainPool = new JedisPool(config, mainParts[0], mainPort, 5000);
+			this.cachePool = new JedisPool(config, cacheParts[0], cachePort, 5000);
+		} else {
+			this.mainPool = new JedisPool(config, mainParts[0], mainPort, 5000, password);
+			this.cachePool = new JedisPool(config, cacheParts[0], cachePort, 5000, password);
+		}
 
 		plugin.getLogger().info("[Database] Connection initialized.");
 

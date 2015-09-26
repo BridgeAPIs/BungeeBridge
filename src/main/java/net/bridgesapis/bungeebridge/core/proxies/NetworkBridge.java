@@ -24,6 +24,8 @@ public class NetworkBridge {
 		this.plugin = plugin;
 		this.proxy = plugin.getProxyName();
 
+		plugin.getLogger().info("Initialized NetworkBridge for proxy " + proxy);
+
 		// Recover proxys //
 		Jedis jedis = plugin.getConnector().getBungeeResource();
 		Set<String> proxys = jedis.smembers("proxys");

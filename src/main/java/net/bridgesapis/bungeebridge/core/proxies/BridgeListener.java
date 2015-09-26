@@ -129,7 +129,7 @@ public class BridgeListener implements Listener {
 				}
 			}
 
-			if (instance.getType().equals(ServerSettings.CloseType.CLOSED)) {
+			if (instance.getType().equals(ServerSettings.CloseType.VIP)) {
 				if (! user.hasPermission("netjoin.closed") || ! user.hasPermission("netjoin.vip")) {
 					e.setCancelled(true);
 					e.setCancelReason(I18n.getTranslation("serverstate.reserved_to_permission"));
@@ -192,7 +192,10 @@ public class BridgeListener implements Listener {
 			jedis.close();
 		} catch (Exception ex) {
 			e.setCancelled(true);
-			e.setCancelReason(I18n.getTranslation("serverstate.error").replace("%ERROR%", ex.getMessage()));
+			ex.printStackTrace();
+			String error = I18n.getTranslation("serverstate.error");
+			error = error.replace("%ERROR%", ex.getMessage());
+			e.setCancelReason(error);
 		}
 		e.completeIntent(plugin);
 	}
