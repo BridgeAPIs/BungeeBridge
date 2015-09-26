@@ -81,6 +81,7 @@ public class BungeeBridge extends Plugin {
 			connector.subscribe("commands.proxies.all", commands);
 			connector.psubscribe("apiexec.*", new ApiExecutor());
 			connector.subscribe("commands.proxies." + getProxyName(), commands);
+			connector.psubscribe("globmessages.*", new GlobalMessagesHandler());
 
 			ProxyServer.getInstance().getScheduler().schedule(this, serverSettings::refresh, 30, 30, TimeUnit.SECONDS);
 

@@ -67,7 +67,6 @@
         <dependency>
             <groupId>net.zyuiop</groupId>
             <artifactId>CrossPermissionsAPI</artifactId>
-            <scope>compile</scope>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
