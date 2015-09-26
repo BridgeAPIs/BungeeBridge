@@ -9,10 +9,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.HashMap;
 
 public class I18n {
 
-    private static Configuration lang;
+    private static Configuration           lang;
 
     public static void load(String lang, BungeeBridge plugin) throws IOException {
         File file = new File(plugin.getDataFolder().getPath() + "/i18n/" + lang + ".lang");

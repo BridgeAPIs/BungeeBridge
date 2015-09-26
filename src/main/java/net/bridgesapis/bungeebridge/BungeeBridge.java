@@ -104,6 +104,10 @@ public class BungeeBridge extends Plugin {
 			getProxy().getPluginManager().registerCommand(this, new CommandLocation(this));
 			getProxy().getPluginManager().registerCommand(this, new CommandProxyDebug(this));
 			getProxy().getPluginManager().registerCommand(this, new CommandSetOption(this));
+			getProxy().getPluginManager().registerCommand(this, new CommandHelp());
+			getProxy().getPluginManager().registerCommand(this, new CommandGlobal(this));
+			getProxy().getPluginManager().registerCommand(this, new CommandSetAutoMessage());
+			getProxy().getPluginManager().registerCommand(this, new CommandDelAutoMessage());
 
 			getProxy().getPluginManager().registerListener(this, new ServerMovementsListener(this));
 			getProxy().getPluginManager().registerListener(this, new PlayerJoinEvent(this));
