@@ -6,29 +6,23 @@ import net.bridgesapis.bungeebridge.BungeeBridge;
 import net.bridgesapis.bungeebridge.permissions.commands.CommandRefresh;
 import net.bridgesapis.bungeebridge.permissions.commands.CommandUsers;
 import net.zyuiop.crosspermissions.api.PermissionsAPI;
-import net.zyuiop.crosspermissions.api.database.Database;
 import net.zyuiop.crosspermissions.api.rawtypes.RawPlayer;
 import net.zyuiop.crosspermissions.api.rawtypes.RawPlugin;
-import redis.clients.jedis.Jedis;
+
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class PermissionsBridge implements RawPlugin {
 
-	private final BungeeBridge plugin;
+	private final BungeeBridge   plugin;
 	private final PermissionsAPI api;
 
-	public PermissionsBridge(BungeeBridge plugin) {
+	public PermissionsBridge(BungeeBridge plugin, String defaultGroup) {
 		this.plugin = plugin;
 
 
-		this.api = new PermissionsAPI(this, "Joueur", new Database() {
-			@Override
-			public Jedis getJedis() {
-				return PermissionsBridge.this.plugin.getConnector().getResource();
-			}
-		});
+		this.api = new PermissionsAPI(this, "Joueur", () -> PermissionsBridge.this.plugin.getConnector().getResource());
 
 
 		ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new CommandGroups(api));

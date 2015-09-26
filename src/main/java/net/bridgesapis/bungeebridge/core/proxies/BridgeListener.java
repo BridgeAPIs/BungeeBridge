@@ -86,9 +86,6 @@ public class BridgeListener implements Listener {
 			data.remove("currentserver");
 			data.remove("currentproxy");
 			bridge.getPlugin().getPlayerDataManager().unload(event.getPlayer().getUniqueId());
-
-			if (BungeeBridge.getInstance().getPartiesManager() != null)
-				BungeeBridge.getInstance().getPartiesManager().logout(event.getPlayer().getUniqueId());
 		});
 	}
 
@@ -192,22 +189,7 @@ public class BridgeListener implements Listener {
 
 			jedis.sadd("uniqueplayers", e.getConnection().getUniqueId().toString());
 			jedis.hset("lastlogin", e.getConnection().getUniqueId().toString(), System.currentTimeMillis() + "");
-
-			String muted = jedis.get("mute:" + id);
-			if (muted != null) {
-				String reason = jedis.get("mute:" + id + ":reason");
-				Long end = Long.decode(muted);
-				Date fin = new Date(end);
-				if (fin.before(new Date())) {
-					jedis.del("mute:" + id);
-					jedis.del("mute:" + id + ":reason");
-				} else {
-					plugin.getChatListener().addMute(id, fin, reason);
-				}
-			}
-
 			jedis.close();
-
 		} catch (Exception ex) {
 			e.setCancelled(true);
 			e.setCancelReason(I18n.getTranslation("serverstate.error").replace("%ERROR%", ex.getMessage()));

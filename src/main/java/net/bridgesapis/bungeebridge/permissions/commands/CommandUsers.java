@@ -10,10 +10,8 @@ import net.zyuiop.crosspermissions.api.PermissionsAPI;
 import net.zyuiop.crosspermissions.api.permissions.PermissionGroup;
 import net.zyuiop.crosspermissions.api.permissions.PermissionUser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CommandUsers extends Command {
 
@@ -55,7 +53,7 @@ public class CommandUsers extends Command {
     }
 
     public UUID getPlayerID(String name) {
-        return BungeeBridge.getInstance().getUuidTranslator().getUUID(name, false);
+        return BungeeBridge.getInstance().getUuidTranslator().getUUID(name, true);
     }
 
     @Override
@@ -128,12 +126,7 @@ public class CommandUsers extends Command {
                     return;
                 }
 
-                ArrayList<PermissionGroup> gpes = new ArrayList<>();
-                for (PermissionGroup gpe : u.getParents())
-                    gpes.add(gpe);
-
-                for (PermissionGroup gpe : gpes)
-                    u.removeParent(gpe);
+                u.getParents().stream().collect(Collectors.toList()).forEach(u::removeParent);
 
                 if (args.length == 4) {
                     int duration = Integer.decode(args[3]);

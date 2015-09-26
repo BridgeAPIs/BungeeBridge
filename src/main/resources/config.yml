@@ -17,18 +17,5 @@ database:
 #  masterhost: "" # IP:PORT of the master
 #  cachehost: "" # IP:PORT of the cache db
 
-modules:
-  lobbies:
-    # Beware : when lobbies are enabled, you have to set your fallback server to a ghost server named 'main'
-    enabled: true
-    lobbyprefix: Lobby_
-  privatemessages:
-    enabled: true
-  friends:
-    enabled: true
-  parties:
-    # The parties module is not totally finished yet
-    # Moreover, it's not translated at all
-    # Enable it only if you're easy with BungeeCord and Bukkit programming, because you'll have to change the system
-    # Feel free to give me any feedback or any pull request on this feature
-    enabled: false
+# Default permissions group name
+defaultGroup: Joueur

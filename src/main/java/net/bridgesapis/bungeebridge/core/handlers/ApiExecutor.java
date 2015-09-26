@@ -5,10 +5,10 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.bridgesapis.bungeebridge.BungeeBridge;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class ApiExecutor implements PubSubConsumer {
@@ -20,6 +20,8 @@ public class ApiExecutor implements PubSubConsumer {
 	apiexec.connect <nickname> <server>
 	apiexec.friendrequest <from> <to>
 	 */
+
+	private static final HashMap<String, CustomExecutor> executorHashMap = new HashMap<>();
 
 	@Override
 	public void consume(final String channel, String message) {
@@ -42,11 +44,18 @@ public class ApiExecutor implements PubSubConsumer {
 			ServerInfo info = ProxyServer.getInstance().getServerInfo(server);
 			if (info != null)
 				player.connect(info);
-		} else if (chan[1].equalsIgnoreCase("friendrequest") && BungeeBridge.getInstance().hasFriends()) {
-			UUID from = UUID.fromString(msgParts[0]);
-			UUID to = UUID.fromString(msgParts[1]);
-
-			BungeeBridge.getInstance().getFriendsManagement().sendRequest(from, to);
+		} else {
+			CustomExecutor executor = executorHashMap.get(chan[1]);
+			if (executor != null)
+				executor.consume(msgParts);
 		}
+	}
+
+	public static void registerExecutor(String channel, CustomExecutor executor) {
+		executorHashMap.put(channel, executor);
+	}
+
+	public interface CustomExecutor {
+		void consume(String[] message);
 	}
 }
